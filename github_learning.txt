@@ -70,3 +70,42 @@ $ pwd
 		1. git add	把文件添加进去，实际上就是把文件修改添加到暂存区；
 		2. git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支
 		每次修改，如果不用git add到暂存区，那就不会加入到commit中
+	3.撤销修改
+		git checkout -- file可以丢弃工作区的修改
+				令git checkout -- readme.txt意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：
+				一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+				一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+	4.删除文件
+		rm test.txt
+		1.要从版本库中删除该文件，那就用命令git rm删掉，并且git commit			
+				git rm test.txt
+				git commit -m "remove test.txt"
+		2.删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本
+				git checkout -- test.txt
+5.分支管理
+	1.创建与合并分支
+		查看分支：git branch
+		创建分支：git branch <name>
+		切换分支：git checkout <name>或者git switch <name>
+		创建+切换分支：git checkout -b <name>或者git switch -c <name>
+		合并某分支到当前分支：git merge <name>
+		删除分支：git branch -d <name>
+		例子：
+			git branch dev		创建分支
+			git switch dev		切换分支
+			git branch			查看分支  当前分支前面会标一个*号
+			git add readme.txt  git commit -m "branch test" 添加文件到分支
+			git switch master	切换回master分支
+			git merge --no-ff -m dev		把dev分支的工作成果合并到master分支上 
+											加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并。
+			git branch -d dev	删除dev分支  -D 强行删除
+	2，冲突
+			自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。
+			解决冲突就是把Git合并失败的文件手动编辑为我们希望的内容，再提交。
+			用git log --graph命令可以看到分支合并图
+	3.多人协作
+			git remote -v	查看远程库的信息
+			git push origin <branch-name>   推送自己的修改
+			git pull	如果推送失败，则因为远程分支比你的本地更新,试图合并
+			如果合并有冲突，则解决冲突，并在本地提交
+			再用git push origin <branch-name>推送就能成功
