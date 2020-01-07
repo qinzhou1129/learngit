@@ -5,7 +5,7 @@ $ mkdir learngit
 $ cd learngit
 $ pwd
 
-2. 通过git init命令把这个目录变成Git可以管理的仓库：
+通过git init命令把这个目录变成Git可以管理的仓库：
 
 	$ git init
 
@@ -31,3 +31,42 @@ $ pwd
 
 从现在起，只要本地作了提交，就可以通过命令：
 	git push origin master
+
+从远程库克隆
+	git clone https://github.com/qinzhou1129/gitskills.git
+
+3. 附录- 生成新 SSH 密钥并添加到 ssh-agent
+
+生成新 SSH 密钥
+	ssh-keygen -t rsa -b 4096 -C "qxz142130@utdallas.edu"
+后台启动 ssh 代理
+	eval "$(ssh-agent -s)"
+	ssh-add ~/.ssh/id_rsa
+
+将 SSH 密钥添加到 GitHub 帐户
+	click your profile photo, then click Settings.In the user settings sidebar, click SSH and GPG keys.
+	单击 New SSH key（新 SSH 密钥）或 Add SSH key（添加 SSH 密钥）
+	在 "Title"（标题）字段中，为新密钥添加描述性标签。 例如，如果您使用的是个人 Mac，此密钥名称可能是 "Personal MacBook Air"。	
+
+将 SSH 密钥复制到剪贴板。
+	pbcopy < ~/.ssh/id_rsa.pub
+	
+将密钥粘贴到 "Key"（密钥）字段	
+单击 Add SSH key（添加 SSH 密钥）。
+
+4.时光机穿梭
+	1. 版本退回和前进
+		查看版本
+		git log		命令显示从最近到最远的提交日志，我们可以看到3次提交
+		git reflog	用来记录你的每一次命令， 更多次修改
+		修改版本
+		git reset --hard 16cc5   指定回到过去或者返回撤销掉的某个版本
+					版本号没必要写全，前几位就可以了，Git会自动去找。当然也不能只写前一两位，因为Git可能会找到多个版本号，就无法确定是哪一个了。
+	2. 工作区和暂存区
+		工作区：在电脑里能看到的目录， 上面进行的新的修改，尚未上传到版本库。
+			git status    用该命令查看工作区内容状态，Untracked代表文件还从来没有被添加过。
+		暂存区：英文叫stage, 或index
+		应用
+		1. git add	把文件添加进去，实际上就是把文件修改添加到暂存区；
+		2. git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支
+		每次修改，如果不用git add到暂存区，那就不会加入到commit中
